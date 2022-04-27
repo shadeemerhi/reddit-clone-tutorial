@@ -6,7 +6,7 @@ import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth, firestore } from "../../../firebase/clientApp";
 import { FIREBASE_ERRORS } from "../../../firebase/errors";
 import { User } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const SignUp: React.FC = () => {
   const setAuthModalState = useSetRecoilState(authModalState);
@@ -40,8 +40,8 @@ const SignUp: React.FC = () => {
   };
 
   const createUserDocument = async (user: User) => {
-    await addDoc(
-      collection(firestore, "users"),
+    await setDoc(
+      doc(firestore, "users", user.uid),
       JSON.parse(JSON.stringify(user))
     );
   };

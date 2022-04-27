@@ -17,7 +17,7 @@ import {
 import { auth, firestore } from "../firebase/clientApp";
 
 const useCommunityData = () => {
-  const [user] = useAuthState(auth);
+  const [user, loadingUser] = useAuthState(auth);
   const [communityStateValue, setCommunityStateValue] =
     useRecoilState(communityState);
   const setAuthModalState = useSetRecoilState(authModalState);
@@ -133,7 +133,13 @@ const useCommunityData = () => {
   };
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setCommunityStateValue((prev) => ({
+        ...prev,
+        mySnippets: [],
+      }));
+      return;
+    }
     getMySnippets();
   }, [user]);
 
