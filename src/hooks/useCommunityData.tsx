@@ -19,6 +19,8 @@ import {
 import { auth, firestore } from "../firebase/clientApp";
 
 const useCommunityData = () => {
+  console.log("CALLING HOOK LOL");
+
   const [user, loadingUser] = useAuthState(auth);
   const router = useRouter();
   const [communityStateValue, setCommunityStateValue] =
@@ -171,6 +173,8 @@ const useCommunityData = () => {
       getCommunityData(communityId as string);
     }
   }, [router.query, communityStateValue.currentCommunity]);
+
+  console.log("HERE IS STUFF", communityStateValue);
 
   return {
     // data and functions
