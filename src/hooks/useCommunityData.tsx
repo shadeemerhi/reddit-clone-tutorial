@@ -19,9 +19,7 @@ import {
 import { auth, firestore } from "../firebase/clientApp";
 
 const useCommunityData = () => {
-  console.log("CALLING HOOK LOL");
-
-  const [user, loadingUser] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const router = useRouter();
   const [communityStateValue, setCommunityStateValue] =
     useRecoilState(communityState);
@@ -62,6 +60,7 @@ const useCommunityData = () => {
       setCommunityStateValue((prev) => ({
         ...prev,
         mySnippets: snippets as CommunitySnippet[],
+        snippetsFetched: true,
       }));
     } catch (error: any) {
       console.log("getMySnippets error", error);
@@ -160,6 +159,7 @@ const useCommunityData = () => {
       setCommunityStateValue((prev) => ({
         ...prev,
         mySnippets: [],
+        snippetsFetched: false,
       }));
       return;
     }
@@ -173,8 +173,6 @@ const useCommunityData = () => {
       getCommunityData(communityId as string);
     }
   }, [router.query, communityStateValue.currentCommunity]);
-
-  console.log("HERE IS STUFF", communityStateValue);
 
   return {
     // data and functions
